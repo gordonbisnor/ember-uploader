@@ -121,10 +121,10 @@ export default Ember.Object.extend(Ember.Evented, {
    * @param {object} data Object of data supplied to the didUpload event
    * @return {object} Returns the given data
    */
-  didUpload (data, options) {
+  didUpload (data, textStatus, jqXHR) {
     set(this, 'isUploading', false);
-    this.trigger('didUpload', data, options);
-    return data;
+    this.trigger('didUpload', data, textStatus, jqXHR);
+    return ;
   },
 
   /**
@@ -215,8 +215,8 @@ export default Ember.Object.extend(Ember.Evented, {
    */
   ajaxPromise (settings) {
     return new Ember.RSVP.Promise((resolve, reject) => {
-      settings.success = (data, options) => {
-        run(null, resolve, this.didUpload(data, options));
+      settings.success = (data, textStatus, jqXHR) => {
+        run(null, resolve, this.didUpload(data, textStatus, jqXHR));
       };
 
       settings.error = (jqXHR, responseText, errorThrown) => {

@@ -1,13 +1,11 @@
-import Ember    from 'ember';
+import { get, set } from '@ember/object';
+import { run } from '@ember/runloop';
 import Uploader from 'ember-uploader/uploaders/base';
 
-const {
-  get,
-  set,
-  run
-} = Ember;
-
 export default Uploader.extend({
+  
+  ajax: Ember.inject.service(),
+  
   /**
    * Target url used to request a signed upload policy
    *
@@ -54,7 +52,7 @@ export default Uploader.extend({
         url = `https://${json.bucket}.s3.amazonaws.com`;
       }
 
-      return this.ajax(url, this.createFormData(file, json));
+      return this.get('ajax').request(url, this.createFormData(file, json));
     });
   },
 
@@ -86,7 +84,7 @@ export default Uploader.extend({
 
     set(this, 'isSigning', true);
 
-    return new Ember.RSVP.Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       settings.success = (json) => {
         run(null, resolve, this.didSign(json));
       };
@@ -95,7 +93,7 @@ export default Uploader.extend({
         run(null, reject, this.didErrorOnSign(jqXHR, responseText, errorThrown));
       };
 
-      Ember.$.ajax(settings);
+      this.get('ajax').request(settings);
     });
   },
 

@@ -1,6 +1,7 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import Evented from '@ember/object/evented';
 
-export default Ember.Component.extend(Ember.Evented, {
+export default Component.extend(Evented, {
   tagName: 'input',
   type: 'file',
   attributeBindings: [

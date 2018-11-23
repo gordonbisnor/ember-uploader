@@ -1,12 +1,10 @@
 import Ember from 'ember';
+import { run } from '@ember/runloop';
+import EmberObject from '@ember/object';
+import Evented from '@ember/object/evented';
+const { get, set } = '@ember/object';
 
-const {
-  get,
-  set,
-  run
-} = Ember;
-
-export default Ember.Object.extend(Ember.Evented, {
+export default EmberObject.extend(Evented, {
   /**
    * Target url to upload to
    *

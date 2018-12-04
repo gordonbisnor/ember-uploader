@@ -1,10 +1,11 @@
+import { inject } from "@ember/service"
 import { get, set } from '@ember/object';
 import { run } from '@ember/runloop';
 import Uploader from 'ember-uploader/uploaders/base';
 
 export default Uploader.extend({
   
-  ajax: Ember.inject.service(),
+  ajax: inject.service(),
   
   /**
    * Target url used to request a signed upload policy
@@ -33,7 +34,7 @@ export default Uploader.extend({
    *
    * @param  {object|array} files  One file object or one array of files object
    * @param  {object} extra Extra data to be sent with the upload
-   * @return {object} Returns a Ember.RSVP.Promise wrapping the signing
+   * @return {object} Returns a RSVP.Promise wrapping the signing
    * request object
    */
   upload (file, extra = {}) {
@@ -61,7 +62,7 @@ export default Uploader.extend({
    *
    * @param  {object|array} files  One file object or one array of files object
    * @param  {object} extra Extra data to be sent with the upload
-   * @return {object} Returns a Ember.RSVP.Promise wrapping the signing
+   * @return {object} Returns a RSVP.Promise wrapping the signing
    * request object
    */
   sign (file, extra = {}) {

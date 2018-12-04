@@ -1,4 +1,5 @@
-import Ember from 'ember';
+import $ from "jquery"
+import RSVP from "rsvp"
 import { run } from '@ember/runloop';
 import EmberObject from '@ember/object';
 import Evented from '@ember/object/evented';
@@ -54,7 +55,7 @@ export default EmberObject.extend(Evented, {
    *
    * @param  {object|array} files  One file object or one array of files object
    * @param  {object} extra Extra data to be sent with the upload
-   * @return {object} Returns a Ember.RSVP.Promise wrapping the ajax request
+   * @return {object} Returns a RSVP.Promise wrapping the ajax request
    * object
    */
   upload (files, extra = {}) {
@@ -180,7 +181,7 @@ export default EmberObject.extend(Evented, {
    * @param {string} url The target url for the request
    * @param {object} data The data to send with the request
    * @param {string} method The request method
-   * @return {object} Returns a Ember.RSVP.Promise wrapping the ajax request
+   * @return {object} Returns a RSVP.Promise wrapping the ajax request
    * object
    */
   ajax (url, data = {}, method = this.method) {
@@ -191,7 +192,7 @@ export default EmberObject.extend(Evented, {
       contentType: false,
       processData: false,
       xhr: () => {
-        const xhr = Ember.$.ajaxSettings.xhr();
+        const xhr = $.ajaxSettings.xhr();
         xhr.upload.onprogress = (event) => {
           this.didProgress(event);
         };
@@ -206,13 +207,13 @@ export default EmberObject.extend(Evented, {
 
   /**
    * Starts a request using the supplied settings returning a
-   * Ember.RSVP.Promise wrapping the ajax request
+   * RSVP.Promise wrapping the ajax request
    *
    * @param {object} settings The jQuery.ajax compatible settings object
-   * @return {object} Returns a Ember.RSVP.Promise wrapping the ajax request
+   * @return {object} Returns a RSVP.Promise wrapping the ajax request
    */
   ajaxPromise (settings) {
-    return new Ember.RSVP.Promise((resolve, reject) => {
+    return new RSVP.Promise((resolve, reject) => {
       settings.success = (data, textStatus, jqXHR) => {
         run(null, resolve, this.didUpload(data, textStatus, jqXHR));
       };
@@ -221,7 +222,7 @@ export default EmberObject.extend(Evented, {
         run(null, reject, this.didError(jqXHR, responseText, errorThrown));
       };
 
-      Ember.$.ajax(settings);
+      $.ajax(settings);
     });
   }
 });

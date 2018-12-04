@@ -1,5 +1,6 @@
 import Component from '@ember/component';
 import Evented from '@ember/object/evented';
+import { isEmpty } from '@ember/utils';
 
 export default Component.extend(Evented, {
   tagName: 'input',
@@ -17,7 +18,7 @@ export default Component.extend(Evented, {
   multiple: false,
   change (event) {
     const input = event.target;
-    if (!Ember.isEmpty(input.files)) {
+    if (!isEmpty(input.files)) {
       this.trigger('filesDidChange', input.files);
     }
   }
